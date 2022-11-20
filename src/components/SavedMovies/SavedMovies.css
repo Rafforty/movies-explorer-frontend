@@ -1,0 +1,12 @@
+.saved-movies {
+  max-width: 1280px;
+  min-width: 320px;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+}
+.saved-movies__container {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
