@@ -12,7 +12,7 @@ function App() {
 
     // Смена стейта меняет хедер на залогиненый
 
-    const [isLoggedIn, setIsLoggedIn] = React.useState(false);         
+    const [isLoggedIn, setIsLoggedIn] = React.useState(true);         
     const [isFilterMovies, setIsFilterMovies] = React.useState(true);
 
     function changeFilter() {

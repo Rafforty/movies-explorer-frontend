@@ -199,6 +199,7 @@
     display: none;
   }
   .navigation__burger {
+    margin-right: -25px;
     margin-top: -6px;
     height: 44px;
     width: 44px;
@@ -212,12 +213,18 @@
     background-color: transparent;
   }
 }
+@media screen and (max-width: 756px) {
+  .navigation__burger {
+    margin-right: 14px;
+  }
+}
 @media screen and (max-width: 320px) {
   .navigation {
     margin-right: 14px;
     margin-top: 24px;
   }
   .navigation__burger {
+    margin-right: 0px;
     width: 40px;
     height: 43px;
     background-image: url("../../images/mobile_burger_menu.svg");
