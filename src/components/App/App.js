@@ -10,7 +10,9 @@ import NotFound from "../NotFound/NotFound";
 
 function App() {
 
-    const [isLoggedIn, setIsLoggedIn] = React.useState(false);
+    // Смена стейта меняет хедер на залогиненый
+
+    const [isLoggedIn, setIsLoggedIn] = React.useState(false);         
     const [isFilterMovies, setIsFilterMovies] = React.useState(true);
 
     function changeFilter() {

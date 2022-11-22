@@ -6,7 +6,7 @@
   background-image: url("../../images/landing_logo.svg");
   background-position-y: 5px;
   background-repeat: no-repeat;
-  background-position: 480px 156px;
+  background-position: center;
 }
 .promo__title {
   margin: 184px auto 224px auto;
@@ -23,7 +23,6 @@
 @media screen and (max-width: 768px) {
   .promo {
     min-height: 858px;
-    background-position: 224px 298px;
   }
   .promo__title {
     margin: 326px auto 224px auto;
@@ -32,7 +31,6 @@
 @media screen and (max-width: 450px) {
   .promo {
     min-height: 644px;
-    background-position: 36px 216px;
     background-size: 248px 248px;
   }
   .promo__title {

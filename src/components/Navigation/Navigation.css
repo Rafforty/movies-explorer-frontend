@@ -193,7 +193,7 @@
 
 @media screen and (max-width: 768px) {
   .navigation {
-    margin-right: -22px;
+    margin-right: 14px;
   }
   .navigation_logged {
     display: none;

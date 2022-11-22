@@ -66,9 +66,8 @@ border-radius: 50%;
   color: #fff;
 }
 
-@media screen and (max-width: 800px){
+@media screen and (max-width: 768px){
   .checkbox__container {
-    width: 708px;
     margin: 27px 30px 80px;
     padding-bottom: 52px;
   }

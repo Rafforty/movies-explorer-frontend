@@ -75,10 +75,10 @@
   .techs {
     padding: 0;
     padding-left: 50px;
+    padding-right: 50px;
   }
   .techs__title {
     padding-top: 90px;
-    width: 668px;
     margin-bottom: 80px;
   }
   .techs__subtitle {
@@ -113,7 +113,7 @@
     width: 84px;
   }
   .techs__title {
-    width: 284px;
+    margin:0;
     padding-top: 70px;
     margin-bottom: 60px;
     padding-bottom: 28px;

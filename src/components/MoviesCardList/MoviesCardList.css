@@ -13,7 +13,7 @@
   column-gap: 20px;
   justify-content: center;
 }
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 768px) {
   .movies__list {
     margin: 0 30px;
     min-width: 708px;
@@ -22,7 +22,7 @@
     grid-template-columns: repeat(auto-fill, minmax(339px, max-content));
   }
 }
-@media screen and (max-width: 450px) {
+@media screen and (max-width: 756px) {
   .movies__list {
     margin: 0;
     min-width: 300px;
