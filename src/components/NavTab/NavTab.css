@@ -1,0 +1,30 @@
+.navigation-tab {
+  display: flex;
+  background: rgba(39, 39, 39, 1);
+  min-height: 66px;
+  justify-content: center;
+  align-items: center;
+}
+.nav-tab__link {
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 16px;
+  text-align: left;
+  color: white;
+  margin-right: 40px;
+  cursor: pointer;
+  transition: 1s;
+}
+.nav-tab__link:last-child {
+  margin-right: 0;
+}
+.nav-tab__link:hover {
+  opacity: 0.7;
+}
+@media screen and (max-width: 480px) {
+  .nav-tab__link {
+    font-size: 11px;
+    margin-right: 24px;
+  }
+}
