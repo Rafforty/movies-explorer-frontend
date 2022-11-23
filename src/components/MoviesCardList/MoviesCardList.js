@@ -2,26 +2,39 @@ import React from "react";
 import MoviesCard from "../MoviesCard/MoviesCard";
 import "./MoviesCardList.css";
 import Preloader from "../Preloader/Preloader";
+import { SearchErrorAdvice } from "../../utils/constants";
 
-function MoviesCardList({ moviesList, isSaved }) {
-  
-  const [isLoadingMovies, setIsLoadingMovies] = React.useState(false);
+function MoviesCardList({ 
+  moviesList,  
+  isSaved, 
+  isLoading, 
+  savedMovies, 
+  deleteMovieFromSaved, 
+  saveMovie, 
+  foundError, 
+  serverError 
+}) {
 
   return (
-    <div className="movies-card-list">
-      {isLoadingMovies ? <Preloader /> : ""}
+    <section className="movies-card-list">
+      <Preloader isLoading={isLoading}/>
+      <span className="search-form__advice">{foundError ? "Ничего не найдено =(" : ""}</span>
+      <span className="server__error">{serverError ? SearchErrorAdvice : ""}</span>
       <ul className="movies__list">
         {moviesList.map((movies) => {
           return (
             <MoviesCard
-              key={movies.movieId}
+              key={isSaved ? movies.movieId : movies.id}
               movies={movies}
               isSaved={isSaved}
+              savedMovies={savedMovies}
+              deleteMovieFromSaved={deleteMovieFromSaved}
+              saveMovie={saveMovie}
             />
           );
         })}
       </ul>
-    </div>
+    </section>
   );
 }
 
