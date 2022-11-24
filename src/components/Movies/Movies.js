@@ -87,10 +87,6 @@ function Movies({
       window.addEventListener('resize', onChangeWidth);
     }, [])
 
-    setTimeout(() => {
-      window.removeEventListener('resize', onChangeWidth)
-    }, 3000)
-
     const moviesListRender = moviesList.slice(0, moviesOnDisplay);
 
     function addMoviesListRender() {
