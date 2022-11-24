@@ -14,19 +14,27 @@ function SearchForm({ isSaved, searchMovies, searchSavedMovies }) {
   function handleSearchMovies(evt) {
     evt.preventDefault();
     searchMovies(textInput);
-    setTextInput('');
   }
 
   function handleSearchSavedMovies(evt) {
     evt.preventDefault();
     searchSavedMovies(textInput);
-    setTextInput('');
   }
     
   return (
     <>
-    <form className="search-form" onSubmit={isSaved ? handleSearchSavedMovies : handleSearchMovies}>
-      <input className="search-form__input" onChange={handleInputChange} value={textInput} type="text" placeholder="Фильм" required minLength="1" />
+    <form className="search-form" name="search-form" onSubmit={isSaved ? handleSearchSavedMovies : handleSearchMovies} noValidate>
+      <input 
+        id="search"
+        name="search"
+        className="search-form__input" 
+        onChange={handleInputChange} 
+        value={textInput} 
+        type="text" 
+        placeholder="Фильм" 
+        minLength="1" 
+        required
+        />
       <button className="search-form__button" disabled={!validForm} type="submit">
         Поиск
       </button>

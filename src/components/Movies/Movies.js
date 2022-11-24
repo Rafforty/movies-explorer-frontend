@@ -5,6 +5,17 @@ import SearchForm from "../SearchForm/SearchForm";
 import Footer from "../Footer/Footer";
 import "./Movies.css";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
+import {
+  SCREEN_SIZE_DESKTOP_BIG, 
+  SCREEN_SIZE_DESKTOP, 
+  SCREEN_SIZE_TABLET, 
+  NUMBER_OF_MOVIES_DESKTOP_BIG, 
+  NUMBER_OF_MOVIES_DESKTOP, 
+  NUMBER_OF_MOVIES_TABLET, 
+  NUMBER_OF_MOVIES_ADD_DESKTOP_BIG, 
+  NUMBER_OF_MOVIES_ADD_DESKTOP, 
+  NUMBER_OF_MOVIES_ADD_TABLET,
+  NUMBER_OF_MOVIES_ADD_MOBILE } from "../../utils/constants"
 
 function Movies({ 
   isLoggedIn, 
@@ -31,50 +42,54 @@ function Movies({
 
   const [moviesOnDisplay, setMoviesOnDisplay] = React.useState(() => {
     const windowWidth = window.innerWidth;
-    if (windowWidth > 1279) {
-      return 16
-    } else if (windowWidth >= 800) {
-      return 12
-    } else if (windowWidth >= 500) {
-      return 8
+    if (windowWidth > SCREEN_SIZE_DESKTOP_BIG) {
+      return NUMBER_OF_MOVIES_DESKTOP_BIG
+    } else if (windowWidth >= SCREEN_SIZE_DESKTOP) {
+      return NUMBER_OF_MOVIES_DESKTOP_BIG
+    } else if (windowWidth >= SCREEN_SIZE_TABLET) {
+      return NUMBER_OF_MOVIES_DESKTOP
     } else {
-      return 5
+      return NUMBER_OF_MOVIES_TABLET
     }
   })
 
   const [numberMoviesAdd, setNumberMoviesAdd] = React.useState(() => {
     const windowWidth = window.innerWidth;
-    if (windowWidth > 1279) {
-      return 4
-    } else if (windowWidth >=800) {
-      return 3 
-    } else if (windowWidth >= 500) {
-      return 2
+    if (windowWidth > SCREEN_SIZE_DESKTOP_BIG) {
+      return NUMBER_OF_MOVIES_ADD_DESKTOP_BIG
+    } else if (windowWidth >=SCREEN_SIZE_DESKTOP) {
+      return NUMBER_OF_MOVIES_ADD_DESKTOP
+    } else if (windowWidth >= SCREEN_SIZE_TABLET) {
+      return NUMBER_OF_MOVIES_ADD_TABLET
     } else {
-      return 2
+      return NUMBER_OF_MOVIES_ADD_MOBILE
     }
   })
 
   function onChangeWidth() {
     const windowWidth = window.innerWidth;
-    if (windowWidth > 1279) {
-      setMoviesOnDisplay(16);
-      setNumberMoviesAdd(4);
-    } else if (windowWidth >= 800) {
-      setMoviesOnDisplay(12);
-      setNumberMoviesAdd(3);
-    } else if (windowWidth >= 500) {
-      setMoviesOnDisplay(8);
-      setNumberMoviesAdd(2);
+    if (windowWidth > SCREEN_SIZE_DESKTOP_BIG) {
+      setMoviesOnDisplay(NUMBER_OF_MOVIES_DESKTOP_BIG);
+      setNumberMoviesAdd(NUMBER_OF_MOVIES_ADD_DESKTOP_BIG);
+    } else if (windowWidth >= SCREEN_SIZE_DESKTOP) {
+      setMoviesOnDisplay(NUMBER_OF_MOVIES_DESKTOP_BIG);
+      setNumberMoviesAdd(NUMBER_OF_MOVIES_ADD_DESKTOP);
+    } else if (windowWidth >= SCREEN_SIZE_TABLET) {
+      setMoviesOnDisplay(NUMBER_OF_MOVIES_DESKTOP);
+      setNumberMoviesAdd(NUMBER_OF_MOVIES_ADD_TABLET);
     } else {
-      setMoviesOnDisplay(5);
-      setNumberMoviesAdd(2);
+      setMoviesOnDisplay(NUMBER_OF_MOVIES_TABLET);
+      setNumberMoviesAdd(NUMBER_OF_MOVIES_ADD_MOBILE);
     }
   }
 
     React.useEffect(() => {
       window.addEventListener('resize', onChangeWidth);
     }, [])
+
+    setTimeout(() => {
+      window.removeEventListener('resize', onChangeWidth)
+    }, 3000)
 
     const moviesListRender = moviesList.slice(0, moviesOnDisplay);
 
@@ -93,7 +108,7 @@ function Movies({
       <SearchForm 
         isSaved={false} 
         searchMovies={searchMovies} 
-        searchSavedMovied={searchSavedMovies}/>
+        searchSavedMovies={searchSavedMovies}/>
       <FilteredCheckbox 
         isFilterMovies={isFilterMovies} 
         changeFilter={changeFilter} />

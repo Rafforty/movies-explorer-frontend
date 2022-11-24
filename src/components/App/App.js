@@ -18,6 +18,7 @@ import { LoginEmailError,
     ProfileUpdateSuccess, 
     RegistrationError, 
     RegistrationErrorFields, 
+    SHORT_MOVIE_DURATION, 
     TryAgainError } from "../../utils/constants";
 
 function App() {
@@ -40,6 +41,11 @@ function App() {
     const [token, setToken] = React.useState('');
     const history = useHistory();
     const location = useLocation();
+
+    function goBack() {
+        history.goBack();
+    }
+
 
     function changeFilter() {
         setIsFilterMovies(!isFilterMovies);
@@ -103,7 +109,7 @@ function App() {
             .catch((err) => {
                 if (err === 400) {
                     return setLoginError(LoginFieldsError);
-                } else if (err === 401) {
+                } if (err === 401) {
                     return setLoginError(LoginEmailError);
                 }
                 setLoginError(TryAgainError);
@@ -120,8 +126,8 @@ function App() {
     function onRegistration({ email, password, name }) {
         MoviesApi.registration({ email, password, name })
             .then((data) => {
-                if (data._id) {
-                    onLogin ({ email, password })
+                if ({ email, password }) {
+                    onLogin({ email, password })
                 }
                 })
                 .catch((err) => {
@@ -168,7 +174,7 @@ function App() {
     function searchFilterTime(itemList) {
         let result = [];
         itemList.forEach((movie) => {
-            if (movie.duration <= 40) {
+            if (movie.duration <= SHORT_MOVIE_DURATION) {
                 result.push(movie);
             }
         })
@@ -220,22 +226,14 @@ function App() {
         if (savedMoviesList.length > 0) {
             setFilterSavedMoviesList(search(savedMoviesList, searchText))
         } else {
-            setIsLoading(true); 
             MoviesApi.getUserMovies()
                 .then((res) => {
                     setSavedMoviesList(res);
                     localStorage.setItem('saved', JSON.stringify(res));
                     setFilterSavedMoviesList(search(savedMoviesList, searchText));
                 })
-                .catch(() => {
-                    setIsLoading(false);
-                    setServerError(true);
-                })
-                // .catch(() => 
-                // setServerError(true));
-                // setTimeout(() => {
-                //     setIsLoading(false)
-                // }, 625);
+                .catch(() => 
+                setServerError(true));
         }
     }
 
@@ -270,7 +268,6 @@ function App() {
     }
 
     function deleteMovieFromSaved(id) {
-        setIsLoading(true);
         MoviesApi.dislikeMovie({ token, id })
             .then(() => {
                 const res = filterMoviesById(savedMoviesList, id);
@@ -280,13 +277,9 @@ function App() {
                 setFilterShortSavedMoviesList(filterMoviesById(filterShortSavedMoviesList, id));
             })
             .catch(() => setServerError(true));
-        setTimeout(() => {
-            setIsLoading(false);
-        }, 625);
     }
 
     function saveMovie(movie) {
-        setIsLoading(true);
          MoviesApi.likeMovie({ token, movie })
             .then((res) => {
                 const movies = [...savedMoviesList, res];
@@ -300,9 +293,6 @@ function App() {
                 }
             })
             .catch(() => setServerError(true));
-            setTimeout(() => {
-                setIsLoading(false);
-            }, 625);
     }
 
     function editUser({ name, email }) {
@@ -355,6 +345,7 @@ function App() {
                         setFilter={changeFilter}
                         moviesList={isFilterMovies ? filterShortSavedMoviesList : filterSavedMoviesList}
                         searchMovies={searchMovies}
+                        searchSavedMovies={searchSavedMovies}
                         isLoading={isLoading}
                         savedMovies={savedMoviesList}
                         deleteMovieFromSaved={deleteMovieFromSaved}
@@ -394,7 +385,7 @@ function App() {
                     />}
                 </Route>
                 <Route path="*" >
-                    <NotFound />
+                    <NotFound goBack={goBack}/>
                 </Route>
             </Switch>
         </CurrentUserContext.Provider>

@@ -57,7 +57,7 @@ border-radius: 50%;
 }
 
 #highload1+.lb1 {             
-  background-color: rgba(61, 220, 132, 1);
+  background-color: gray;
 }
 #highload1:checked+.lb1 {
   background-color: rgba(61, 220, 132, 1);

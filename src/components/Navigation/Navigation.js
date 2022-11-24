@@ -21,10 +21,10 @@ function Navigation({ isLoggedIn, isMain, isMovies, isSavedMovies, isProfile }) 
         <>
           <div className="navigation_logged">
             <div className="navigation__links">
-              <Link to="/movies" className="navigation__movie">
+              <Link to="/movies" className={isMovies ? "navigation__movie navigation__movie-decoration" : "navigation__movie"}>
                 Фильмы
               </Link>
-              <Link to="/saved-movies" className="navigation__movie">
+              <Link to="/saved-movies" className={isSavedMovies ? "navigation__movie navigation__movie-decoration" : "navigation__movie"}>
                 Сохранённые фильмы
               </Link>
             </div>
