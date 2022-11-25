@@ -13,7 +13,6 @@ function Login({ onLogin, clearErrors, loginError, setLoginError }) {
       email: values.email,
       password: values.password
     });
-    console.log(values)
     resetForm();
   }
 

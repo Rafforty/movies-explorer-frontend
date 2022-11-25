@@ -85,6 +85,10 @@ function Movies({
 
     React.useEffect(() => {
       window.addEventListener('resize', onChangeWidth);
+
+      return () => {
+        window.removeEventListener('resize', onChangeWidth);
+      }
     }, [])
 
     const moviesListRender = moviesList.slice(0, moviesOnDisplay);
@@ -112,6 +116,7 @@ function Movies({
         moviesList={moviesListRender} 
         isSaved={false} 
         isLoading={isLoading} 
+        isFilterMovies={isFilterMovies}
         savedMovies={savedMovies} 
         deleteMovieFromSaved={deleteMovieFromSaved} 
         saveMovie={saveMovie} 
