@@ -39,6 +39,7 @@ function Login({ onLogin, clearErrors, loginError, setLoginError }) {
             className="login__form-input" 
             type="email" 
             name="email"
+            pattern="^[a-zA-Z0-9._:$!%-]+@[a-zA-Z0-9.-]+\.+[a-zA-Z]{2,}$"
             value={values.email || ''} 
             onChange={handleInputChange} 
              />

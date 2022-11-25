@@ -52,6 +52,7 @@ function Register({ onRegistration, clearErrors, registrationError, setRegistrat
           <input 
             className="registration__input" 
             type="email" 
+            pattern="^[a-zA-Z0-9._:$!%-]+@[a-zA-Z0-9.-]+\.+[a-zA-Z]{2,}$"
             placeholder="email" 
             name="email" 
             value={values.email || ''} 
