@@ -27,6 +27,12 @@
   display: none;
 }
 
+@media screen and (max-width: 100vw) {
+  .movies {
+    width: 1280px;
+  }
+}
+
 @media screen and (max-width: 666px) {
   .movies__button {
     width: 240px;

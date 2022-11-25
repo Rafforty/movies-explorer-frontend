@@ -43,9 +43,8 @@ function App() {
     const location = useLocation();
 
     function goBack() {
-        history.goBack();
+        history.goBack()
     }
-
 
     function changeFilter() {
         setIsFilterMovies(!isFilterMovies);
@@ -232,8 +231,10 @@ function App() {
                     localStorage.setItem('saved', JSON.stringify(res));
                     setFilterSavedMoviesList(search(savedMoviesList, searchText));
                 })
-                .catch(() => 
-                setServerError(true));
+                .catch((err) => {setServerError(true)
+                    console.log(err)
+                }
+                );
         }
     }
 
@@ -292,7 +293,10 @@ function App() {
                     setFilterSavedMoviesList(prev => [...prev, res]);
                 }
             })
-            .catch(() => setServerError(true));
+            .catch((err) => {
+                setServerError(true);
+                console.log(err)
+            });
     }
 
     function editUser({ name, email }) {
