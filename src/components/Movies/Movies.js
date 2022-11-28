@@ -30,7 +30,10 @@ function Movies({
   saveMovie, 
   foundError, 
   serverError, 
-  clearAllErrors }) {
+  clearAllErrors,
+  searchText,
+  resultMovies
+   }) {
 
   React.useEffect(() => {
     clearAllErrors();
@@ -106,6 +109,7 @@ function Movies({
         isSavedMovies={false} 
         isProfile={false} />
       <SearchForm 
+        searchText={searchText}
         isSaved={false} 
         searchMovies={searchMovies} 
         searchSavedMovies={searchSavedMovies}/>
@@ -113,6 +117,7 @@ function Movies({
         isFilterMovies={isFilterMovies} 
         changeFilter={changeFilter} />
       <MoviesCardList 
+        movies={resultMovies}
         moviesList={moviesListRender} 
         isSaved={false} 
         isLoading={isLoading} 

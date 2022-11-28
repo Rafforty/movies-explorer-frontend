@@ -7,7 +7,7 @@ function NotFound() {
   const history = useHistory();
 
   function handleClickBack() {
-    history.go(-3);
+    history.go(-2);
   }
 
   return (

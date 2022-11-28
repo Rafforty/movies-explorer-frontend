@@ -24,21 +24,29 @@ import { LoginEmailError,
 function App() {
 
     const [isLoggedIn, setIsLoggedIn] = React.useState(false);         
-    const [isFilterMovies, setIsFilterMovies] = React.useState(false);
     const [currentUser, setCurrentUser] = React.useState({});
-    const [moviesList, setMoviesList] = React.useState([]);
+
+    const [token, setToken] = React.useState('');
+    const [resultMovies, setResultMovies] = React.useState([]);
     const [savedMoviesList, setSavedMoviesList] = React.useState([]);
+    const [searchText, setSearchText] = React.useState(""); 
+    const [moviesList, setMoviesList] = React.useState([]);
+
+    const [isLoading, setIsLoading] = React.useState(false);
+    const [isFilterMovies, setIsFilterMovies] = React.useState(false);
+    const [isReady, setIsReady] = React.useState(false);
+   
     const [filterMoviesList, setFilterMoviesList] = React.useState([]);
     const [filterSavedMoviesList, setFilterSavedMoviesList] = React.useState([]);
     const [filterShortMoviesList, setFilterShortMoviesList] = React.useState([]);
     const [filterShortSavedMoviesList, setFilterShortSavedMoviesList] = React.useState([]);
+
     const [loginError, setLoginError] = React.useState('');
     const [registrationError, setRegistrationError] = React.useState('');
     const [foundError, setFoundError] = React.useState(false);
     const [serverError, setServerError] = React.useState(false);
     const [profileError, setProfileError] = React.useState('');
-    const [isLoading, setIsLoading] = React.useState(false);
-    const [token, setToken] = React.useState('');
+   
     const history = useHistory();
     const location = useLocation();
 
@@ -54,6 +62,8 @@ function App() {
         const jwt = localStorage.getItem('jwt');
         const movies = localStorage.getItem('movies');
         const savedMovies = localStorage.getItem('saved');
+        const searchedMovies = localStorage.getItem('resultMovies');
+        const textValue = localStorage.getItem('resultSearchText');
         if (jwt) {
             setToken(jwt);
             if (movies) {
@@ -64,6 +74,11 @@ function App() {
                 const dataSaved = JSON.parse(savedMovies);
                 setSavedMoviesList(dataSaved);
                 setFilterSavedMoviesList(dataSaved);
+            } if (searchedMovies) {
+                const searchedData = JSON.parse(searchedMovies);
+                setResultMovies(searchedData);
+            } if (textValue) {
+                setSearchText(textValue);
             }
             MoviesApi.getToken(jwt)
                 .then((user) => {
@@ -74,12 +89,36 @@ function App() {
                 .catch(() => {
                     setServerError(true);
                 })
-        }
+            } else {
+                localStorage.clear();
+            }
     }
+
 
     React.useEffect(() => {
         checkToken();
+        setIsReady(true)
     }, []);
+
+    React.useEffect(() => {
+        if (token) localStorage.setItem('jwt', token)
+    }, [token]);
+
+    React.useEffect(() => {
+        if (isReady) localStorage.setItem('saved', JSON.stringify(savedMoviesList))
+    }, [savedMoviesList]);
+
+    React.useEffect(() => {
+        if (isReady) localStorage.setItem('resultSearchText', searchText)
+    }, [searchText]);
+
+    React.useEffect(() => {
+        if (isReady) localStorage.setItem('resultMovies', JSON.stringify(resultMovies))
+    }, [resultMovies]);
+
+    React.useEffect(() => {
+        if (isReady) localStorage.setItem('movies', JSON.stringify(moviesList))
+    }, [moviesList]);
 
     function onLogin({email, password}) {
         MoviesApi.authorize({email, password})
@@ -124,7 +163,7 @@ function App() {
 
     function onRegistration({ email, password, name }) {
         MoviesApi.registration({ email, password, name })
-            .then((data) => {
+            .then(() => {
                 if ({ email, password }) {
                     onLogin({ email, password })
                 }
@@ -154,6 +193,8 @@ function App() {
         setFilterSavedMoviesList([]);
         setFilterShortMoviesList([]);
         setFilterShortSavedMoviesList([]);
+        setResultMovies([]);
+        setSearchText('');
         clearAllErrors();
         history.push('/');
     }
@@ -179,6 +220,7 @@ function App() {
     }
 
     function searchMovies(searchText) {
+        setSearchText(searchText)
         setServerError(false);
         setIsLoading(true);
         if (moviesList.length > 0) {
@@ -188,12 +230,13 @@ function App() {
             } else {
                 setFoundError(true);
             }
+            setResultMovies(result);
             setFilterMoviesList(result);
         } else {
             MainApi.getInitialData()
                 .then((res) => {
                     setMoviesList(res);
-                    localStorage.setItem('movies', JSON.stringify(res));
+                    localStorage.setItem('resultMovies', JSON.stringify(res));
                     const result = search(res, searchText);
                     if (result.length > 0) {
                         setFoundError(false);
@@ -208,7 +251,7 @@ function App() {
                         } else {
                             setFoundError(true);
                         }
-                        setFilterShortMoviesList(resultShortFilter);
+                        setResultMovies(resultShortFilter);
                     }
                 })
                 .catch(() => setServerError(true));
@@ -281,8 +324,8 @@ function App() {
     function saveMovie(movie) {
          MoviesApi.likeMovie({ token, movie })
             .then((res) => {
-                const movies = [...savedMoviesList, res];
-                localStorage.setItem('saved', JSON.stringify(movies));
+                const savedMovies = [...savedMoviesList, res];
+                localStorage.setItem('saved', JSON.stringify(savedMovies));
                 setSavedMoviesList(prev => [...prev, res]);
                 if (isFilterMovies) {
                     setFilterSavedMoviesList(prev => [...prev, res]);
@@ -324,11 +367,12 @@ function App() {
                     <Main isLoggedIn={isLoggedIn} />
                 </Route>
                 <ProtectedRoute exact path="/movies" isLoggedIn={isLoggedIn}>
-                    <Movies 
+                    <Movies
+                        searchText={searchText}
                         isLoggedIn={isLoggedIn} 
                         isFilterMovies={isFilterMovies} 
                         setFilter={changeFilter}
-                        moviesList={isFilterMovies ? filterShortMoviesList : filterMoviesList}
+                        moviesList={isFilterMovies ? filterShortMoviesList : resultMovies}
                         searchMovies={searchMovies}
                         searchSavedMovies={searchSavedMovies}
                         isLoading={isLoading}

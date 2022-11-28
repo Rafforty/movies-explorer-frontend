@@ -2,7 +2,7 @@ import React from "react";
 import MoviesCard from "../MoviesCard/MoviesCard";
 import "./MoviesCardList.css";
 import Preloader from "../Preloader/Preloader";
-import { SearchErrorAdvice, SHORT_MOVIE_DURATION } from "../../utils/constants";
+import { SearchErrorAdvice } from "../../utils/constants";
 
 function MoviesCardList({ 
   moviesList,  

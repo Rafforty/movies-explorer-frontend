@@ -1,10 +1,10 @@
 import React from "react";
 import "./SearchForm.css";
 
-function SearchForm({ isSaved, searchMovies, searchSavedMovies }) {
+function SearchForm({ isSaved, searchMovies, searchSavedMovies, searchText }) {
 
   const [validForm, setValidForm] = React.useState(true);
-  const [textInput, setTextInput] = React.useState('');
+  const [textInput, setTextInput] = React.useState(searchText ? searchText : '');
 
   function handleInputChange(evt) {
     setTextInput(evt.target.value);
@@ -20,7 +20,7 @@ function SearchForm({ isSaved, searchMovies, searchSavedMovies }) {
     evt.preventDefault();
     searchSavedMovies(textInput);
   }
-    
+
   return (
     <>
     <form className="search-form" name="search-form" onSubmit={isSaved ? handleSearchSavedMovies : handleSearchMovies} noValidate>
@@ -29,7 +29,7 @@ function SearchForm({ isSaved, searchMovies, searchSavedMovies }) {
         name="search"
         className="search-form__input" 
         onChange={handleInputChange} 
-        value={textInput || ''} 
+        value={textInput || ''}
         type="text" 
         placeholder="Фильм" 
         minLength="1" 
