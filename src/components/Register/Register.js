@@ -14,8 +14,6 @@ function Register({ onRegistration, clearErrors, registrationError, setRegistrat
       name: values.name,
       password: values.password
     })
-    console.log(values)
-    resetForm();
   }
 
   function handleClearErrors() {

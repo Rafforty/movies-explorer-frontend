@@ -9,7 +9,7 @@ import "./SavedMovies.css";
 function SavedMovies({ 
   isLoggedIn,
   setFilter, 
-  isFilterMovies, 
+  filter, 
   moviesList, 
   searchMovies, 
   searchSavedMovies, 
@@ -19,10 +19,7 @@ function SavedMovies({
   saveMovies, 
   serverError, 
   clearAllErrors }) {
-    
-  function changeFilter() {
-    setFilter();
-  }
+  
 
   React.useEffect(() => {
     clearAllErrors();
@@ -38,12 +35,14 @@ function SavedMovies({
           isMovies={false} 
           isSavedMovies={true} />
         <SearchForm 
+          filter={filter}
+          setFilter={setFilter}
           isSaved={true}
           searchMovies={searchMovies}
           searchSavedMovies={searchSavedMovies} />
         <FilteredCheckbox 
-          isFilterMovies={isFilterMovies} 
-          changeFilter={changeFilter} />
+          filter={filter} 
+          setFilter={setFilter} />
         <MoviesCardList 
           moviesList={moviesList} 
           isSaved={true}

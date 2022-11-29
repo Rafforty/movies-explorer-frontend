@@ -33,7 +33,7 @@ function App() {
     const [moviesList, setMoviesList] = React.useState([]);
 
     const [isLoading, setIsLoading] = React.useState(false);
-    const [isFilterMovies, setIsFilterMovies] = React.useState(false);
+    const [filter, setFilter] = React.useState();
     const [isReady, setIsReady] = React.useState(false);
    
     const [filterMoviesList, setFilterMoviesList] = React.useState([]);
@@ -54,10 +54,6 @@ function App() {
         history.goBack()
     }
 
-    function changeFilter() {
-        setIsFilterMovies(!isFilterMovies);
-    }
-
     function checkToken() {
         const jwt = localStorage.getItem('jwt');
         const movies = localStorage.getItem('movies');
@@ -69,7 +65,7 @@ function App() {
             if (movies) {
                 const data = JSON.parse(movies);
                 setMoviesList(data);
-            }
+            } 
             if (savedMovies) {
                 const dataSaved = JSON.parse(savedMovies);
                 setSavedMoviesList(dataSaved);
@@ -89,7 +85,7 @@ function App() {
                 .catch(() => {
                     setServerError(true);
                 })
-            } else {
+            }  else {
                 localStorage.clear();
             }
     }
@@ -148,6 +144,7 @@ function App() {
                 if (err === 400) {
                     return setLoginError(LoginFieldsError);
                 } if (err === 401) {
+                    localStorage.clear();
                     return setLoginError(LoginEmailError);
                 }
                 setLoginError(TryAgainError);
@@ -244,7 +241,7 @@ function App() {
                         setFoundError(true);
                     }
                     setFilterMoviesList(result);
-                    if (isFilterMovies) {
+                    if (filter) {
                         const resultShortFilter = searchFilterTime(result);
                         if (resultShortFilter.lenght > 0) {
                             setFoundError(false);
@@ -281,10 +278,10 @@ function App() {
 
     React.useEffect(() => {
         setFoundError(false);
-        if (isFilterMovies) {
+        if (filter) {
             if (location.pathname === '/movies') {
                 if (moviesList.length > 0) {
-                    const result = searchFilterTime(filterMoviesList);
+                    const result = searchFilterTime(resultMovies);
                     if (result.length > 0) {
                         setFoundError(false);
                     } else {
@@ -303,7 +300,7 @@ function App() {
                 setFilterShortMoviesList(result);
             }
         }
-    }, [isFilterMovies]);
+    }, [filter]);
 
     function filterMoviesById(itemList, id) {
         return itemList.filter((item) => { return item._id !== id });
@@ -327,7 +324,7 @@ function App() {
                 const savedMovies = [...savedMoviesList, res];
                 localStorage.setItem('saved', JSON.stringify(savedMovies));
                 setSavedMoviesList(prev => [...prev, res]);
-                if (isFilterMovies) {
+                if (filter) {
                     setFilterSavedMoviesList(prev => [...prev, res]);
                     setFilterShortSavedMoviesList(prev => [...prev, res]);
                 } else {
@@ -370,9 +367,9 @@ function App() {
                     <Movies
                         searchText={searchText}
                         isLoggedIn={isLoggedIn} 
-                        isFilterMovies={isFilterMovies} 
-                        setFilter={changeFilter}
-                        moviesList={isFilterMovies ? filterShortMoviesList : resultMovies}
+                        filter={filter} 
+                        setFilter={setFilter}
+                        moviesList={filter ? filterShortMoviesList : resultMovies}
                         searchMovies={searchMovies}
                         searchSavedMovies={searchSavedMovies}
                         isLoading={isLoading}
@@ -387,9 +384,9 @@ function App() {
                 <ProtectedRoute exact path="/saved-movies" isLoggedIn={isLoggedIn}>
                     <SavedMovies 
                         isLoggedIn={isLoggedIn} 
-                        isFilterMovies={isFilterMovies} 
-                        setFilter={changeFilter}
-                        moviesList={isFilterMovies ? filterShortSavedMoviesList : filterSavedMoviesList}
+                        filter={filter} 
+                        setFilter={setFilter}
+                        moviesList={filter ? filterShortSavedMoviesList : filterSavedMoviesList}
                         searchMovies={searchMovies}
                         searchSavedMovies={searchSavedMovies}
                         isLoading={isLoading}

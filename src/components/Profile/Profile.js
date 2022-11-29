@@ -7,7 +7,13 @@ import { useFormWithValidation } from "../../hooks/useFormWithValidation";
 function Profile({ isLoggedIn, onLogout, editUser, profileError, setProfileError }) {
 
   const currentUser = React.useContext(CurrentUserContext);
+  const [isSubmitDisabled, setIsSubmitDisabled] = React.useState(true);
+
   const { values, handleChange, errors, isValid, resetForm, setValues } = useFormWithValidation();
+
+  const checkSubmit = React.useCallback(() => {
+    return !isValid || values.name === currentUser.name && values.email === currentUser.email;
+  }, [isValid, values, currentUser])
 
   function editProfile(evt) {
     evt.preventDefault();
@@ -16,6 +22,8 @@ function Profile({ isLoggedIn, onLogout, editUser, profileError, setProfileError
       name: values.name
     })
     resetForm();
+    checkSubmit();
+    setIsSubmitDisabled(true);
   }
 
   function handleClickLogout() {
@@ -33,6 +41,10 @@ function Profile({ isLoggedIn, onLogout, editUser, profileError, setProfileError
   React.useEffect(() => {
     setValues(currentUser);
   }, [currentUser, setValues])
+
+  React.useEffect(() => {
+    setIsSubmitDisabled(checkSubmit());
+  }, [checkSubmit])
     
   return (
     <section className="profile">
@@ -58,7 +70,7 @@ function Profile({ isLoggedIn, onLogout, editUser, profileError, setProfileError
         </div>
         <div className="profile__buttons">
           <span className="profile__edit-save">{profileError}</span>
-          <button className={isValid ? "profile__button-edit" : "profile__button-edit profile__button-edit_disabled"} disabled={!isValid} type="submit">
+          <button className={!isSubmitDisabled ? "profile__button-edit" : "profile__button-edit profile__button-edit_disabled"} disabled={isSubmitDisabled} type="submit">
             Редактировать
           </button>
           <button className="profile__button-exit" onClick={handleClickLogout} type="button">

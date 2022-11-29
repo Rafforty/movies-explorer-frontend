@@ -20,7 +20,7 @@ import {
 function Movies({ 
   isLoggedIn, 
   setFilter, 
-  isFilterMovies, 
+  filter, 
   moviesList, 
   searchMovies, 
   searchSavedMovies, 
@@ -112,16 +112,18 @@ function Movies({
         searchText={searchText}
         isSaved={false} 
         searchMovies={searchMovies} 
-        searchSavedMovies={searchSavedMovies}/>
+        searchSavedMovies={searchSavedMovies}
+        filter={filter}
+        setFilter={setFilter}/>
       <FilteredCheckbox 
-        isFilterMovies={isFilterMovies} 
-        changeFilter={changeFilter} />
+        filter={filter} 
+        setFilter={setFilter} />
       <MoviesCardList 
         movies={resultMovies}
         moviesList={moviesListRender} 
         isSaved={false} 
         isLoading={isLoading} 
-        isFilterMovies={isFilterMovies}
+        filter={filter}
         savedMovies={savedMovies} 
         deleteMovieFromSaved={deleteMovieFromSaved} 
         saveMovie={saveMovie} 
