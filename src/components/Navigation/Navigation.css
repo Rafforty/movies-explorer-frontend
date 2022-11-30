@@ -222,6 +222,13 @@
     margin-right: 14px;
   }
 }
+
+@media screen and (max-width: 540px) {
+  .burger__container {
+    min-width: 100%;
+  }
+}
+
 @media screen and (max-width: 320px) {
   .navigation {
     margin-right: 14px;
@@ -249,8 +256,5 @@
   }
   .burger__profile {
     margin-bottom: 46px;
-  }
-  .burger__container {
-    width: 100%;
   }
 }
