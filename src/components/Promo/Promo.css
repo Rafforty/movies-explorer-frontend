@@ -4,7 +4,6 @@
   background: rgba(7, 48, 66, 1);
   background-size: 320px 320px;
   background-image: url("../../images/landing_logo.svg");
-  background-position-y: 5px;
   background-repeat: no-repeat;
   background-position: center;
 }

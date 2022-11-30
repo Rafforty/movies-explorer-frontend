@@ -144,7 +144,6 @@ function App() {
                 if (err === 400) {
                     return setLoginError(LoginFieldsError);
                 } if (err === 401) {
-                    localStorage.clear();
                     return setLoginError(LoginEmailError);
                 }
                 setLoginError(TryAgainError);
