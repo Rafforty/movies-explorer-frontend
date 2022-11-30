@@ -12,6 +12,9 @@
   width: 100%;
   height: 151px;
 }
+.movies-card__trailer {
+  text-decoration: none;
+}
 .movies-card__container {
   display: flex;
   justify-content: space-between;
